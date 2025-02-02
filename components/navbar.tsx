@@ -37,19 +37,19 @@ const Navbar = () => {
 
         {/* Auth-buttons */}
         <div className='md:hidden absolute top-[48px] right-5'>
-            <Link href="/">
+            <Link href="/auth">
                 <FaRegUserCircle className='size-6 text-white' />
             </Link>
         </div>
 
         {/* Desktop buttons - shows only on md+ screens */}
         <div className="hidden md:flex md:absolute md:top-10 md:right-10 gap-4">
-            <Link href="/">
+            <Link href="/auth">
                 <Button variant="outline" className="font-montserrat font-semiBold text-[14px] bg-transparent text-white hover:bg-white hover:text-black">
                     Login
                 </Button>
             </Link>
-            <Link href="/">
+            <Link href="/auth">
                 <Button className="bg-white font-montserrat font-semiBold text-[14px] hover:bg-gray-100">
                     Sign up
                 </Button>
