@@ -12,6 +12,7 @@
     "react-is": "^19.0.0-rc-69d4b800-20241021"
   },
   "dependencies": {
+    "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
