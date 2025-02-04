@@ -5,6 +5,7 @@ import Navbar from "../components/navbar";
 
 // Landing page...
 export default function Home() {
+
   return (
     <header className="relative">
         <div className="relative overflow-hidden rounded-b-3xl">

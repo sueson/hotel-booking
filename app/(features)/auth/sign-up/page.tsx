@@ -1,14 +1,15 @@
 "use client";
 
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image"
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
+import { signInWithGoogle, signInWithGithub, signInWithCredentials } from "../../../hooks/auth-providers";
+import { Button } from "@/components/ui/button";
 
 
 
@@ -20,6 +21,24 @@ const images = [
 
 const SignUp = () => {
     const [currentImage, setCurrentImage] = useState(0);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [state, formAction] = useActionState(
+        async (prevState: { success: boolean; message?: string }, formData: FormData) => {
+            return await signInWithCredentials(
+                formData.get('name') as string,
+                formData.get('email') as string,
+                formData.get('password') as string,
+                formData.get('confirmPassword') as string
+            );
+        },
+        // Initial state
+        {
+            success: false, message: ''
+        }
+    );
 
     useEffect(() => {
         const imageChangeTimer = setTimeout(() => {
@@ -32,7 +51,7 @@ const SignUp = () => {
   return (
     <section className="flex flex-col md:flex-row items-center justify-center min-h-screen md:ms-10 px-4">
 
-<div className="mt-3 relative w-[350px] h-[600px] md:w-[600px] md:h-[600px] hidden md:block">
+        <div className="mt-3 relative w-[350px] h-[600px] md:w-[600px] md:h-[600px] hidden md:block">
             <Image
                 src={images[currentImage]}
                 alt="image-slider"
@@ -68,18 +87,23 @@ const SignUp = () => {
             </div>
             
             <div className="flex items-center justify-center text-center gap-3 mt-5">
-                <Button 
-                    variant={"ghost"} 
-                    className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border-black border rounded-full flex items-center justify-center"
-                >
-                    <FcGoogle className="size-5" />
-                </Button>
-                <Button 
-                    variant={"ghost"} 
-                    className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border-black border rounded-full flex items-center justify-center"
-                >
-                    <FaGithub className="size-5"/>
-                </Button>
+                <form action={ signInWithGoogle } >
+                    <button
+                        type="submit"
+                        className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black  rounded-full flex items-center justify-center"
+                    >
+                        <FcGoogle className="size-5 md:size-7" />
+                    </button>
+                </form>
+
+                <form action={ signInWithGithub }>
+                    <button 
+                        type="submit" 
+                        className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black rounded-full flex items-center justify-center"
+                    >
+                        <FaGithub className="size-5 md:size-7"/>
+                    </button>
+                </form>
             </div>
 
             <div className="flex items-center justify-between gap-2 w-full">
@@ -91,35 +115,57 @@ const SignUp = () => {
             </div>
             
             <div className=" mb-5 flex-col flex justify-center items-center gap-3">
-                <Input
-                    value=""
-                    onChange={() => {}}
-                    placeholder="Name" 
-                />
+            
+                    <form action={formAction} className="w-full space-y-3">
+                        <Input
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Name" 
+                            required
+                        />
 
-                <Input
-                    value=""
-                    onChange={() => {}}
-                    placeholder="Email" 
-                />
+                        <Input
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email" 
+                            required
+                        />
 
-                <Input
-                    value=""
-                    onChange={() => {}}
-                    placeholder="Password" 
-                />
+                        <Input
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            type="password"
+                            placeholder="Password" 
+                            required
+                        />
 
-                <Input
-                    value=""
-                    onChange={() => {}}
-                    placeholder="Confirm Password" 
-                />
+                        <Input
+                            name="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            type="password"
+                            placeholder="Confirm Password" 
+                            required
+                        />
+
+                        {
+                            state?.message && (
+                                <p>
+                                    {state.message}
+                                </p>
+                            )
+                        }
+
+                        <Button type="submit" className="font-montserrat font-semibold text-sm md:text[14px] w-full bg-[#8DD3BB]">
+                            Sign Up
+                        </Button>
+                    </form>
+                
                 
                 <div className="w-full mt-5">
-                    <Button className="font-montserrat font-semibold text-sm md:text[14px] w-full bg-[#8DD3BB]">
-                        Sign Up
-                    </Button>
-
                     <p className="font-montserrat font-semibold text-sm md:text-[14px] mt-5">
                         Already have an account? 
                         <Link href="/auth/sign-in">

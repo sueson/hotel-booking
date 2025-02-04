@@ -76,6 +76,7 @@ const SignIn = () => {
                 <Input
                     value=""
                     onChange={() => {}}
+                    type="password"
                     placeholder="Password" 
                 />
                 
