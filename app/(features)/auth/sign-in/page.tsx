@@ -56,9 +56,9 @@ const SignIn = () => {
                 toast({
                     title: "Login Successfull",
                     variant: "default",
-                    duration: 1000
+                    duration: 5000
                 });
-                router.push("/");
+                router.push("/home");
             } else {
                 toast({
                     title: "Authentication failed",
@@ -78,7 +78,7 @@ const SignIn = () => {
     const handleGoogleSignIn = async () => {
         setIsLoading(true)
         try {
-            const response = await signIn('google', { redirectTo: "/" });
+            const response = await signIn('google', { redirectTo: "/home" });
             
             if (response?.error) {
                 toast({
@@ -92,7 +92,7 @@ const SignIn = () => {
             await update();
             toast({
                 title: "Login Successfull",
-                duration: 1000
+                duration: 5000
             });
         } catch {
             toast({
@@ -107,7 +107,7 @@ const SignIn = () => {
     const handleGithubSignIn = async () => {
         setIsLoading(true)
         try {
-            const response = await signIn('github', { redirectTo: "/" });
+            const response = await signIn('github', { redirectTo: "/home" });
             
             if (response?.error) {
                 toast({
@@ -121,7 +121,7 @@ const SignIn = () => {
             await update();
             toast({
                 title: "Login Successfull",
-                duration: 1000
+                duration: 5000
             });
         } catch {
             toast({

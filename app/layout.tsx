@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
+import NavbarWrapper from "@/components/navbar-wrapper";
 
 const montserrat = localFont({
   src: [
@@ -48,6 +49,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <ConvexClientProvider>
+              <NavbarWrapper />
               {children}
               <Toaster />
           </ConvexClientProvider>
