@@ -67,7 +67,7 @@ const SignUp = () => {
                     description: "Account created successfully!",
                     duration: 5000
                 });
-                router.push("/home");
+                router.push("/");
             } else {
                 toast({
                     title: "Registration Failed",
@@ -124,14 +124,14 @@ const SignUp = () => {
             
             <div className="flex items-center justify-center text-center gap-3 mt-5">
                 <Button
-                    onClick={async () => await signIn('google', { redirectTo: "/home" })}
+                    onClick={async () => await signIn('google', { redirectTo: "/" })}
                     className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black  rounded-full flex items-center justify-center"
                 >
                         <FcGoogle className="size-5 md:size-7" />
                 </Button>
 
                 <Button  
-                    onClick={async () => await signIn('github', { redirectTo: "/home" })}
+                    onClick={async () => await signIn('github', { redirectTo: "/" })}
                     className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black rounded-full flex items-center justify-center"
                 >
                     <FaGithub className="size-5 md:size-7"/>

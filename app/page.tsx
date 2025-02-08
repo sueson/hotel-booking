@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Navbar from "../../../components/navbar";
+import Navbar from "../components/navbar";
 import { Button } from "@/components/ui/button";
 import { MdFlight } from "react-icons/md";
 import { IoBedSharp } from "react-icons/io5";
@@ -178,7 +178,7 @@ export default function Home() {
                 </div>
             </header>
 
-            <section className="mt-[350px] md:mt-[200px] lg:mt-[300px] mx-auto w-[90%] h-[400px] md:w-[700px] md:h-[450px] xl:w-[1232px] xl:h-[542px] border border-red-500 shadow-md">
+            <section className="mt-[350px] md:mt-[200px] lg:mt-[300px] mx-auto w-[90%] h-[400px] md:w-[700px] md:h-[450px] xl:w-[1232px] xl:h-[542px] border shadow-md">
                 <TrendingPlaces />
             </section>
         </>
