@@ -3,11 +3,12 @@
 
 const TrendingPlaces = () => {
     return (
-        <div className="font-montserrat font-semibold md:text-[32px]">
-            <div className="w-full h-full border border-red-500">
-                
+        <div>
+            <div className="w-full h-full">
+                <p className="ont-montserrat font-semibold md:text-[32px]">
+                    Trending Cities
+                </p>
             </div>
-            Trending Cities
         </div>
     )
 }

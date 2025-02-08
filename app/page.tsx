@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import GuestModal from "@/components/guest-modal";
 import TrendingPlaces from "@/components/trending-places";
+import { FaTelegramPlane } from "react-icons/fa";
 
 // Landing page...
 export default function Home() {
@@ -60,7 +61,7 @@ export default function Home() {
                 </div>
 
                 {/* options for flights or stays */}
-                <div className="w-[300px] h-[500px] absolute top-[60%] left-1/2 -translate-x-1/2 md:h-[300px] md:w-[700px] md:top-[400px] lg:w-[1000px] lg:top-[520px] md:left-1/2 rounded-xl bg-white shadow-md">
+                <div className="w-[300px] h-[460px] absolute top-[60%] left-1/2 -translate-x-1/2 md:h-[300px] md:w-[700px] md:top-[400px] lg:w-[1000px] lg:top-[520px] md:left-1/2 rounded-xl bg-white shadow-md">
                     {/* Flight/Stay Toggle */}
                     <div className="w-full flex px-4 gap-4 h-12 rounded-xl md:px-4 md:gap-4 mt-3">
                         <Button 
@@ -170,10 +171,17 @@ export default function Home() {
                     )}
 
                     {/* Search Button */}
-                    <div className="w-full h-12 mt-4 px-4">
-                        <Button className="w-full h-12 bg-[#8DD3BB] mx-auto flex justify-center">
-                            Search
-                        </Button>
+                    <div className="w-full h-12 mt-10 md:mt-4 px-4 md:flex md:items-center md:justify-end">
+                        <div className="md:flex md:items-center md:justify-end">
+                            <Button 
+                                className="w-full h-12 bg-[#8DD3BB] mx-auto md:flex md:justify-center text-[14px] text-center"
+                            >
+                                <FaTelegramPlane className="size-5" />
+                                <p className="font-montserrat font-medium text-[14px]">
+                                    Search Flights
+                                </p>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </header>
