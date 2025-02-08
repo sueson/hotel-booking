@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+import { SessionProvider } from "next-auth/react";
+import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = localFont({
   src: [
@@ -44,9 +46,12 @@ export default function RootLayout({
       <body
         className={montserrat.variable}
       >
-        <ConvexClientProvider>
-            {children}
-        </ConvexClientProvider>
+        <SessionProvider>
+          <ConvexClientProvider>
+              {children}
+              <Toaster />
+          </ConvexClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -3,7 +3,7 @@ import { useQuery } from "convex/react"
 import { useSession } from "next-auth/react";
 
 
-export const useUser = () => {
+export const useCurrentUser = () => {
     const { data: session } = useSession();
 
     const data = useQuery(api.user.getUserByEmail, {

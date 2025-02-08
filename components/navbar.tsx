@@ -1,28 +1,36 @@
 "use client";
 
 
-import React from 'react'
 import { Button } from './ui/button'
 import { MdFlight } from "react-icons/md";
 import { IoBedSharp } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { useEffect } from 'react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const Navbar = () => {
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        console.log('Current session:', session);
+    }, [session]);
 
   return (
     <div className='flex items-center justify-between px-4 md:px-8'>
 
-        <div className='hidden lg:block'>
+        <div className='hidden md:block'>
             {/* icons */}
-            <Link href="/" className="flex items-center absolute top-10 left-10 gap-2">
+            <Link href="/" className="flex items-center absolute top-11 left-10 gap-2">
                 <MdFlight className='size-5 text-white' />
                 <p className='text-white font-montserrat font-semiBold text-[14px]'>
                     Find Flight
                 </p>
             </Link>
 
-            <Link href="/" className="flex items-center absolute top-10 left-52 gap-2">
+            <Link href="/" className="flex items-center absolute top-11 left-40 gap-2">
                 <IoBedSharp className='size-5 text-white' />
                 <p className='text-white font-montserrat font-semiBold text-[14px]'>
                     Find Stays
@@ -35,25 +43,89 @@ const Navbar = () => {
             BookMe
         </div>
 
-        {/* Auth-buttons */}
+        {/* mobile Auth-buttons */}
         <div className='md:hidden absolute top-[48px] right-5'>
-            <Link href="/auth">
-                <FaRegUserCircle className='size-6 text-white' />
-            </Link>
+            {session?.user ? (
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Avatar className='size-10'>
+                            <AvatarImage src={session?.user?.image || ''} alt={session?.user?.name || ''} />
+                            <AvatarFallback>
+                                {session?.user?.name?.slice(0, 1) || 'AV'}
+                            </AvatarFallback>
+                        </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className='mt-2'>
+                        <DropdownMenuItem
+                            className="flex items-center justify-center cursor-pointer bg-white text-black hover:bg-black hover:text-white border-none outline-none"
+                            onClick={async() => {
+                                await signOut({ redirect: false });
+                            }}
+                        >
+                            Logout
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            ) : (
+                <>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <FaRegUserCircle className='size-6 text-white cursor-pointer' />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className='mt-2'>
+                            <DropdownMenuItem
+                                className="flex items-center justify-center cursor-pointer bg-white text-black hover:bg-black hover:text-white border-none outline-none"
+                                onClick={async() => {
+                                    await signOut({ redirectTo: "/auth" });
+                                }}
+                            >
+                                Login
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                </DropdownMenu>
+                </>
+            )}
         </div>
 
         {/* Desktop buttons - shows only on md+ screens */}
         <div className="hidden md:flex md:absolute md:top-10 md:right-10 gap-4">
-            <Link href="/auth">
-                <Button variant="outline" className="font-montserrat font-semiBold text-[14px] bg-transparent text-white hover:bg-white hover:text-black">
-                    Login
-                </Button>
-            </Link>
-            <Link href="/auth">
-                <Button className="bg-white font-montserrat font-semiBold text-[14px] hover:bg-gray-100">
-                    Sign up
-                </Button>
-            </Link>
+            {session?.user ? (
+            <>
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Avatar className='size-10'>
+                            <AvatarImage src={session?.user?.image || ''} alt={session?.user?.name || ''} />
+                            <AvatarFallback className='bg-[#0D417D] text-white border border-white flex items-center justify-center text-xl'>
+                                {session?.user?.name?.slice(0, 1).toUpperCase() || 'AV'}
+                            </AvatarFallback>
+                        </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className='mt-2 w-32'>
+                        <DropdownMenuItem
+                            className="flex items-center justify-center cursor-pointer bg-white text-black hover:bg-black hover:text-white border-none outline-none" 
+                            onClick={async() => {
+                                await signOut({ redirect: false });
+                            }}
+                        >
+                            Logout
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </>
+            ) : (
+            <>
+                <Link href="/auth/sign-in">
+                    <Button variant="outline" className="font-montserrat font-semiBold text-[14px] bg-transparent text-white hover:bg-white hover:text-black">
+                        Login
+                    </Button>
+                </Link>
+                <Link href="/auth/sign-up">
+                    <Button className="bg-white font-montserrat font-semiBold text-[14px] hover:bg-gray-100">
+                        Sign up
+                    </Button>
+                </Link>
+            </>
+            )}
         </div>
     </div>
   )

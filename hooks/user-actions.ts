@@ -6,11 +6,13 @@ import { ConvexHttpClient } from "convex/browser"
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
-export const getUserFromDb = async( 
+export const authenticateUser = async( 
     email: string, 
     password: string ) => {
         try {
             const existingUser = await convex.query(api.user.getUserByEmail, {email});
+
+            if(!existingUser || existingUser.provider !== "credentials") return null;
 
             if(!existingUser?.password) return null;
 
@@ -44,15 +46,16 @@ export const register = async({
         }
 
         const passwordHash = await bcrypt.hash(password, 10);
-        
+
         await convex.mutation(api.user.saveUsers, {
             name: username,
             email,
             password: passwordHash,
+            provider: "credentials",
             createdAt: Date.now()
         })
 
-        return { success: true }
+        return { success: true, message: "Registration successfull" }
     } catch (error) {
         console.log("Registration failed: ", error);
         return { success: false, message: "Registration failed" };

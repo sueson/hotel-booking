@@ -9,7 +9,7 @@ export const saveUsers = mutation({
         image: v.optional(v.string()),
         password: v.optional(v.string()),
         createdAt: v.number(),
-        emailVerified: v.optional(v.number())
+        provider: v.string()
     },
     handler: async (ctx, args) => {
         const existingUser = await ctx.db
@@ -33,6 +33,18 @@ export const getUserByEmail = query({
     }
 });
 
+export const getUserByProviderEmail = query({
+    args: { provider: v.string(), email: v.string() },
+    handler: async (ctx, args) => {
+      return await ctx.db
+        .query("users")
+        .withIndex("by_provider", q => 
+          q.eq("provider", args.provider)
+           .eq("email", args.email)
+        )
+        .first();
+    }
+});
 
 export const getUserById = query({
     args: {

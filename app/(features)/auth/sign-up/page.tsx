@@ -4,12 +4,15 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image"
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
-import { signInWithGoogle, signInWithGithub, signInWithCredentials } from "../../../hooks/auth-providers";
+import { signInWithCredentials } from "../../../../hooks/auth-actions";
 import { Button } from "@/components/ui/button";
+import { signIn, useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 
 
@@ -20,25 +23,16 @@ const images = [
 ];
 
 const SignUp = () => {
+    const { toast } = useToast();
+    const router = useRouter();
+    const { update } = useSession();
+
     const [currentImage, setCurrentImage] = useState(0);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [state, formAction] = useActionState(
-        async (prevState: { success: boolean; message?: string }, formData: FormData) => {
-            return await signInWithCredentials(
-                formData.get('name') as string,
-                formData.get('email') as string,
-                formData.get('password') as string,
-                formData.get('confirmPassword') as string
-            );
-        },
-        // Initial state
-        {
-            success: false, message: ''
-        }
-    );
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const imageChangeTimer = setTimeout(() => {
@@ -47,6 +41,48 @@ const SignUp = () => {
 
         return () => clearTimeout(imageChangeTimer);
     },[currentImage]);
+
+    const handleCredentialsSubmit = async (formData: FormData) => {
+        setIsLoading(true);
+        try {
+            const response = await signInWithCredentials(
+                formData.get("name") as string,
+                formData.get("email") as string,
+                formData.get("password") as string,
+                formData.get("confirmPassword") as string
+            );
+
+            if (response.message === "User already exists") {
+                toast({
+                    title: "User already exists",
+                    description: "This email is already exists, Please sign in instead"
+                });
+                return;
+            } 
+            
+            if (response.success) {
+                await update();
+                toast({
+                    title: "Success",
+                    description: "Account created successfully!",
+                    duration: 1000
+                });
+                router.push("/");
+            } else {
+                toast({
+                    title: "Registration Failed",
+                    description: "Please try again"
+                });
+            }
+        } catch {
+            toast({
+                title: "Error",
+                description: "Registration failed. Please try again."
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
   return (
     <section className="flex flex-col md:flex-row items-center justify-center min-h-screen md:ms-10 px-4">
@@ -87,23 +123,19 @@ const SignUp = () => {
             </div>
             
             <div className="flex items-center justify-center text-center gap-3 mt-5">
-                <form action={ signInWithGoogle } >
-                    <button
-                        type="submit"
-                        className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black  rounded-full flex items-center justify-center"
-                    >
+                <Button
+                    onClick={async () => await signIn('google', { redirectTo: "/" })}
+                    className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black  rounded-full flex items-center justify-center"
+                >
                         <FcGoogle className="size-5 md:size-7" />
-                    </button>
-                </form>
+                </Button>
 
-                <form action={ signInWithGithub }>
-                    <button 
-                        type="submit" 
-                        className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black rounded-full flex items-center justify-center"
-                    >
-                        <FaGithub className="size-5 md:size-7"/>
-                    </button>
-                </form>
+                <Button  
+                    onClick={async () => await signIn('github', { redirectTo: "/" })}
+                    className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border border-black rounded-full flex items-center justify-center"
+                >
+                    <FaGithub className="size-5 md:size-7"/>
+                </Button>
             </div>
 
             <div className="flex items-center justify-between gap-2 w-full">
@@ -115,51 +147,54 @@ const SignUp = () => {
             </div>
             
             <div className=" mb-5 flex-col flex justify-center items-center gap-3">
-            
-                    <form action={formAction} className="w-full space-y-3">
-                        <Input
-                            name="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Name" 
-                            required
-                        />
+                <form action={handleCredentialsSubmit} className="w-full space-y-3">
+                    <Input
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Name" 
+                        required
+                    />
 
-                        <Input
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email" 
-                            required
-                        />
+                    <Input
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email" 
+                        required
+                    />
 
-                        <Input
-                            name="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            type="password"
-                            placeholder="Password" 
-                            required
-                        />
+                    <Input
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Password" 
+                        required
+                    />
 
-                        <Input
-                            name="confirmPassword"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            type="password"
-                            placeholder="Confirm Password" 
-                            required
-                        />
+                    <Input
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="password"
+                        placeholder="Confirm Password" 
+                        required
+                    />
 
-                        {
+                        {/* {
                             state?.message && (
                                 <p>
                                     {state.message}
                                 </p>
                             )
-                        }
+                        } */}
 
-                        <Button type="submit" className="font-montserrat font-semibold text-sm md:text[14px] w-full bg-[#8DD3BB]">
+                        <Button 
+                            type="submit" 
+                            className="font-montserrat font-semibold text-sm md:text[14px] w-full bg-[#8DD3BB]"
+                            disabled={isLoading}
+                        >
                             Sign Up
                         </Button>
                     </form>

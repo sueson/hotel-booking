@@ -9,6 +9,11 @@ import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+
 
 
 const images = [
@@ -18,7 +23,14 @@ const images = [
 ];
 
 const SignIn = () => {
+    const { toast } = useToast();
+    const router = useRouter();
+    const { update } = useSession();
+
     const [currentImage, setCurrentImage] = useState(0);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const imageChangeTimer = setTimeout(() => {
@@ -27,6 +39,100 @@ const SignIn = () => {
 
         return () => clearTimeout(imageChangeTimer);
     },[currentImage]);
+
+    const handleSubmit = async(e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            const response = await signIn("credentials", {
+                email,
+                password,
+                redirect: false
+            });
+
+            if (!response?.error) {
+                await update();
+                toast({
+                    title: "Login Successfull",
+                    variant: "default",
+                    duration: 1000
+                });
+                router.push("/");
+            } else {
+                toast({
+                    title: "Authentication failed",
+                    description: "Invalid credentials"
+                });
+            }
+        } catch {
+            toast({
+                title: "Something went wrong",
+                description: "Please try again later",
+            })   
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const handleGoogleSignIn = async () => {
+        setIsLoading(true)
+        try {
+            const response = await signIn('google', { redirectTo: "/" });
+            
+            if (response?.error) {
+                toast({
+                    title: "Authentication failed",
+                    description: "No account found with this Google profile",
+                });
+                return;
+            }
+    
+            // Wait for session update before redirecting
+            await update();
+            toast({
+                title: "Login Successfull",
+                duration: 1000
+            });
+        } catch {
+            toast({
+                title: "Something went wrong",
+                description: "Please try again later",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const handleGithubSignIn = async () => {
+        setIsLoading(true)
+        try {
+            const response = await signIn('github', { redirectTo: "/" });
+            
+            if (response?.error) {
+                toast({
+                    title: "Authentication failed",
+                    description: "No account found with this Google profile",
+                });
+                return;
+            }
+    
+            // Wait for session update before redirecting
+            await update();
+            toast({
+                title: "Login Successfull",
+                duration: 1000
+            });
+        } catch {
+            toast({
+                title: "Something went wrong",
+                description: "Please try again later",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    
 
   return (
     <section className="flex flex-col md:flex-row items-center justify-center min-h-screen md:ms-10 px-4">
@@ -45,14 +151,18 @@ const SignIn = () => {
             
             <div className="flex items-center justify-center text-center gap-3 mt-5">
                 <Button 
+                    onClick={() => handleGoogleSignIn()}
                     variant={"ghost"} 
                     className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border-black border rounded-full flex items-center justify-center"
+                    disabled={isLoading}
                 >
                     <FcGoogle className="size-5" />
                 </Button>
                 <Button 
+                    onClick={() => handleGithubSignIn()}
                     variant={"ghost"} 
                     className="w-[35px] h-[35px] md:w-[50px] md:h-[50px] border-black border rounded-full flex items-center justify-center"
+                    disabled={isLoading}
                 >
                     <FaGithub className="size-5"/>
                 </Button>
@@ -67,24 +177,34 @@ const SignIn = () => {
             </div>
             
             <div className=" mb-5 flex-col flex justify-center items-center gap-3">
-                <Input
-                    value=""
-                    onChange={() => {}}
-                    placeholder="Email" 
-                />
+                <form onSubmit={handleSubmit} className="w-full space-y-3">
+                    <Input
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email" 
+                        required
+                    />
 
-                <Input
-                    value=""
-                    onChange={() => {}}
-                    type="password"
-                    placeholder="Password" 
-                />
+                    <Input
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Password" 
+                        required
+                    />
+
+                    <Button
+                        type="submit"
+                        className="font-montserrat font-semibold text-sm md:text[14px] w-full bg-[#8DD3BB]"
+                        disabled={isLoading}
+                    >
+                        { isLoading ? "Logging in" : "Login" }
+                    </Button>
+                </form>
                 
                 <div className="w-full mt-5">
-                    <Button className="font-montserrat font-semibold text-sm md:text[14px] w-full bg-[#8DD3BB]">
-                        Login
-                    </Button>
-
                     <p className="font-montserrat font-semibold text-sm md:text-[14px] mt-5">
                         Don&apos;t have an account? 
                         <Link href="/auth/sign-up">

@@ -62,4 +62,343 @@
   }
 }
 
+/* For calendar */
+.custom-calendar .react-calendar__tile--rangeStart,
+.custom-calendar .react-calendar__tile--rangeEnd {
+  @apply !bg-[#8DD3BB] text-black hover:!opacity-70;
+}
 
+.custom-calendar .react-calendar__tile--range:not(.react-calendar__tile--rangeStart):not(.react-calendar__tile--rangeEnd) {
+  @apply !bg-white text-[hsl(var(--foreground))];
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover {
+  @apply !bg-[#8DD3BB];
+}
+
+@media (max-width: 767px) {
+  .custom-calendar {
+    @apply p-4;
+  }
+  
+  .custom-calendar .react-calendar__navigation {
+    @apply flex-col items-start gap-4 mb-4 relative;
+  }
+  
+  .custom-calendar .react-calendar__navigation__label {
+    @apply order-1 text-left text-sm m-0 w-full pb-6;
+  }
+
+  .custom-calendar .react-calendar__navigation__prev2-button,
+  .custom-calendar .react-calendar__navigation__next2-button {
+    @apply hidden;
+  }
+  
+  .custom-calendar .react-calendar__navigation__prev-button,
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply absolute bg-transparent border-none p-0 z-10 block;
+    top: calc(100% + 10px);
+  }
+  
+  .custom-calendar .react-calendar__navigation__prev-button {
+    @apply left-0;
+  }
+  
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply right-0;
+  }
+
+  .custom-calendar .react-calendar__navigation__prev-button {
+    @apply absolute left-0 top-[calc(100%-20px)] bg-transparent border-none p-0;
+  }
+  
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply absolute right-0 top-[calc(100%-20px)] bg-transparent border-none p-0;
+  }
+  
+  .custom-calendar .react-calendar__navigation__label::before {
+    content: "When?";
+    @apply block text-2xl font-bold mb-4;
+  }
+  
+  .custom-calendar .react-calendar__month-view__weekdays {
+    @apply order-1 mb-4;
+  }
+  
+  .custom-calendar .react-calendar__month-view__weekdays::after {
+    content: "";
+    @apply block w-full h-px bg-gray-200 mt-4;
+  }
+  
+  .custom-calendar .react-calendar__navigation__label__labelText {
+    @apply text-lg font-semibold;
+  }
+  
+  .custom-calendar .react-calendar__viewContainer {
+    @apply mt-4;
+  }
+  
+  .custom-calendar .react-calendar__tile {
+    @apply text-sm p-2;
+  }
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+  border-bottom: none !important;
+  text-decoration: none;
+}
+
+/* Add this new rule */
+.custom-calendar .react-calendar__month-view__weekdays abbr {
+  text-decoration: none !important;
+}
+
+/* Updated desktop/mid-size styles */
+.custom-calendar {
+  @apply border border-gray-200 rounded-lg p-6;
+}
+
+.custom-calendar .react-calendar__navigation {
+  @apply mb-8 justify-between items-center relative;
+}
+
+.custom-calendar .react-calendar__navigation__label {
+  @apply text-xl font-semibold;
+}
+
+.custom-calendar .react-calendar__navigation__prev-button,
+.custom-calendar .react-calendar__navigation__next-button {
+  @apply bg-transparent border-none p-2 cursor-pointer;
+  font-size: 0; /* Hide default arrow text */
+}
+
+/* Hide year navigation buttons */
+.custom-calendar .react-calendar__navigation__prev2-button,
+.custom-calendar .react-calendar__navigation__next2-button {
+  @apply hidden;
+}
+
+/* Chevron styles */
+.custom-calendar .react-calendar__navigation__prev-button::after,
+.custom-calendar .react-calendar__navigation__next-button::before {
+  content: '';
+  @apply block w-2.5 h-2.5 border-b-2 border-l-2 border-gray-600;
+}
+
+.custom-calendar .react-calendar__navigation__prev-button::after {
+  transform: rotate(45deg);
+}
+
+.custom-calendar .react-calendar__navigation__next-button::before {
+  transform: rotate(-135deg);
+}
+
+/* Weekday headers */
+.custom-calendar .react-calendar__month-view__weekdays {
+  @apply mb-4;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  @apply text-gray-600 font-normal;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  @apply no-underline text-sm;
+}
+
+/* Calendar tiles */
+.custom-calendar .react-calendar__tile {
+  @apply text-sm p-4 font-normal;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover {
+  @apply bg-gray-50;
+}
+
+.custom-calendar .react-calendar__tile--now {
+  @apply bg-transparent font-semibold;
+}
+
+/* Month view layout */
+.custom-calendar .react-calendar__month-view {
+  @apply px-2;
+}
+
+/* Media query to preserve mobile styles */
+@media (max-width: 767px) {
+  .custom-calendar {
+    @apply p-4;
+  }
+  
+  .custom-calendar .react-calendar__navigation {
+    @apply flex-col items-start gap-4 mb-4 relative;
+  }
+  
+  .custom-calendar .react-calendar__navigation__label {
+    @apply order-1 text-left text-sm m-0 w-full pb-6;
+  }
+
+  .custom-calendar .react-calendar__navigation__prev2-button,
+  .custom-calendar .react-calendar__navigation__next2-button {
+    @apply hidden;
+  }
+  
+  .custom-calendar .react-calendar__navigation__prev-button,
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply absolute bg-transparent border-none p-0 z-10 block;
+    top: calc(100% + 10px);
+  }
+  
+  .custom-calendar .react-calendar__navigation__prev-button {
+    @apply left-0;
+  }
+  
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply right-0;
+  }
+
+  .custom-calendar .react-calendar__navigation__prev-button {
+    @apply absolute left-0 top-[calc(100%-20px)] bg-transparent border-none p-0;
+  }
+  
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply absolute right-0 top-[calc(100%-20px)] bg-transparent border-none p-0;
+  }
+  
+  .custom-calendar .react-calendar__navigation__label::before {
+    content: "When?";
+    @apply block text-2xl font-bold mb-4;
+  }
+  
+  .custom-calendar .react-calendar__month-view__weekdays {
+    @apply order-1 mb-4;
+  }
+  
+  .custom-calendar .react-calendar__month-view__weekdays::after {
+    content: "";
+    @apply block w-full h-px bg-gray-200 mt-4;
+  }
+  
+  .custom-calendar .react-calendar__navigation__label__labelText {
+    @apply text-lg font-semibold;
+  }
+  
+  .custom-calendar .react-calendar__viewContainer {
+    @apply mt-4;
+  }
+  
+  .custom-calendar .react-calendar__tile {
+    @apply text-sm p-2;
+  }
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+  border-bottom: none !important;
+  text-decoration: none;
+}
+
+/* Add this new rule */
+.custom-calendar .react-calendar__month-view__weekdays abbr {
+  text-decoration: none !important;
+}
+
+/* Desktop/tablet styles (min-width: 768px) */
+@media (min-width: 768px) {
+  .custom-calendar {
+    @apply p-8 border rounded-lg;
+  }
+
+  /* Month view layout */
+  .custom-calendar .react-calendar__month-view {
+    @apply w-full;
+  }
+
+  /* Weekday headers alignment */
+  .custom-calendar .react-calendar__month-view__weekdays {
+    @apply mb-6;
+  }
+
+  .custom-calendar .react-calendar__month-view__weekdays__weekday {
+    @apply font-normal text-base text-center;
+  }
+
+  .custom-calendar .react-calendar__month-view__weekdays__weekday abbr {
+    @apply no-underline font-normal text-gray-600 block text-center;
+  }
+
+  /* Calendar dates alignment */
+  .custom-calendar .react-calendar__month-view__days {
+    @apply gap-0;
+  }
+
+  .custom-calendar .react-calendar__tile {
+    @apply text-base p-4 font-normal text-center;
+    max-width: none !important;
+  }
+
+  .custom-calendar .react-calendar__month-view__days__day {
+    @apply text-center;
+  }
+
+  /* Navigation and other existing styles */
+  .custom-calendar .react-calendar__navigation {
+    @apply flex justify-between items-center mb-8 p-0;
+  }
+
+  .custom-calendar .react-calendar__navigation__label {
+    @apply text-2xl font-normal p-0;
+  }
+
+  /* Calendar tiles */
+  .custom-calendar .react-calendar__tile {
+    @apply text-base p-4 font-normal;
+  }
+
+  .custom-calendar .react-calendar__month-view__weekdays {
+    @apply mb-6;
+  }
+
+  .custom-calendar .react-calendar__month-view__weekdays__weekday {
+    @apply font-normal text-base;
+  }
+
+  .custom-calendar .react-calendar__month-view__weekdays__weekday abbr {
+    @apply no-underline font-normal text-gray-600;
+  }
+
+  .custom-calendar .react-calendar__month-view__days__day {
+    @apply text-center;
+  }
+
+  /* Navigation arrows */
+  .custom-calendar .react-calendar__navigation__prev-button,
+  .custom-calendar .react-calendar__navigation__next-button {
+    @apply static p-0 transform-none;
+    font-size: 0;
+  }
+
+  .custom-calendar .react-calendar__navigation__prev-button::after,
+  .custom-calendar .react-calendar__navigation__next-button::before {
+    content: '';
+    @apply block w-2.5 h-2.5 border-l-2 border-b-2 border-gray-600;
+  }
+
+  .custom-calendar .react-calendar__navigation__prev-button::after {
+    transform: rotate(45deg);
+  }
+
+  .custom-calendar .react-calendar__navigation__next-button::before {
+    transform: rotate(-135deg);
+  }
+
+  /* Hide year navigation buttons */
+  .custom-calendar .react-calendar__navigation__prev2-button,
+  .custom-calendar .react-calendar__navigation__next2-button {
+    @apply hidden;
+  }
+
+  /* Hover states */
+  .custom-calendar .react-calendar__tile:enabled:hover {
+    @apply bg-gray-50;
+  }
+}

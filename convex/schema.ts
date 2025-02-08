@@ -10,10 +10,11 @@ const schema = defineSchema({
         password: v.optional(v.string()),
         image: v.optional(v.string()),
         createdAt: v.number(),
-        emailVerified: v.optional(v.number())
+        provider: v.string()
     })
     // To get the specific user...
-    .index("by_email", ["email"]),
+    .index("by_email", ["email"])
+    .index("by_provider", ["provider", "email"]),
 })
 
 
