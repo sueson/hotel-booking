@@ -402,3 +402,12 @@
     @apply bg-gray-50;
   }
 }
+
+/* home page grid scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

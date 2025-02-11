@@ -24,14 +24,14 @@ const Navbar = ({ position = 'relative' }: NavbarProps) => {
 
         <div className='hidden md:block'>
             {/* icons */}
-            <Link href="/" className="flex items-center absolute top-11 left-10 gap-2">
+            <Link href="/flights" className="flex items-center absolute top-11 left-10 gap-2">
                 <MdFlight className='size-5 text-white' />
                 <p className='text-white font-montserrat font-semiBold text-[14px]'>
                     Find Flight
                 </p>
             </Link>
 
-            <Link href="/" className="flex items-center absolute top-11 left-40 gap-2">
+            <Link href="/hotels" className="flex items-center absolute top-11 left-40 gap-2">
                 <IoBedSharp className='size-5 text-white' />
                 <p className='text-white font-montserrat font-semiBold text-[14px]'>
                     Find Stays
@@ -77,7 +77,7 @@ const Navbar = ({ position = 'relative' }: NavbarProps) => {
                             <DropdownMenuItem
                                 className="flex items-center justify-center cursor-pointer bg-white text-black hover:bg-black hover:text-white border-none outline-none"
                                 onClick={async() => {
-                                    await signOut({ redirect:false });
+                                    await signOut({ redirectTo: "/auth" });
                                 }}
                             >
                                 Login
