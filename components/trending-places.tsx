@@ -21,7 +21,7 @@ const TrendingPlaces = () => {
                 <p className="font-montserrat font-semibold text-[24px] md:text-[32px]">
                     Plan your perfect trip
                 </p>
-                <p className="font-montserrat font-regular text-[12px]">
+                <p className="font-montserrat font-regular text-[12px] md:text-[16px]">
                     Exclusive Offers on Flights and Accommodations
                 </p>
             </div>

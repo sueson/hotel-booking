@@ -46,7 +46,7 @@ export default function Home() {
                     </h2>
                 </div>
 
-                {/* options for flights or stays */}
+                {/* search options for flights or stays */}
                 <div className="w-[300px] h-[460px] absolute top-[60%] lg:top-[87%] left-1/2 -translate-x-1/2 md:h-[320px] md:w-[95%] md:max-w-[800px] md:top-[70%] lg:max-w-[900px] xl:max-w-[1200px] rounded-xl bg-white shadow-md">
                     {/* Flight/Stay Toggle */}
                     <div className="w-full flex px-4 gap-4 h-12 rounded-xl md:px-6 md:gap-6 mt-3">
@@ -116,7 +116,7 @@ export default function Home() {
                         </div>
 
                         <div className="mt-3 flex justify-center">
-                            <Link href="/">
+                            <Link href="/flights">
                                 <Button className="bg-[#8DD3BB] hover:bg-[#8DD3BB]/90 max-lg:py-2 lg:py-4">
                                     <FaTelegramPlane className="max-lg:size-4 lg:size-5" />
                                     <p className="font-montserrat font-medium max-lg:text-sm lg:text-base ml-1.5">
@@ -147,7 +147,7 @@ export default function Home() {
                         </div>
 
                         <div className="mt-3 flex justify-center">
-                            <Link href="/">
+                            <Link href="/hotels">
                                 <Button className="bg-[#8DD3BB] hover:bg-[#8DD3BB]/90 max-lg:py-2 lg:py-4">
                                     <FaTelegramPlane className="max-lg:size-4 lg:size-5" />
                                     <p className="font-montserrat font-medium max-lg:text-sm lg:text-base ml-1.5">
