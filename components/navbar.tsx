@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { usePathname } from 'next/navigation';
 
 
 interface NavbarProps {
@@ -18,29 +19,44 @@ interface NavbarProps {
 
 const Navbar = ({ position = 'relative' }: NavbarProps) => {
     const { data: session } = useSession();
+    const pathname = usePathname();
 
   return (
     <div className={`flex items-center justify-between px-4 md:px-8 ${position === 'absolute' ? 'absolute top-0 w-full z-50' : 'relative'}`}>
 
         <div className='hidden md:block'>
             {/* icons */}
-            <Link href="/flights" className="flex items-center absolute top-11 left-10 gap-2">
-                <MdFlight className='size-5 text-white' />
-                <p className='text-white font-montserrat font-semiBold text-[14px]'>
+            <Link 
+                href="/flights" 
+                className={`flex items-center absolute top-11 left-10 gap-2 pb-2 md:pb-7 ${
+                    pathname?.startsWith('/flights') 
+                        ? 'border-b-4 border-[#8DD3BB]' 
+                        : ''
+                }`}
+            >
+                <MdFlight className='size-5 text-black' />
+                <p className='text-black font-montserrat font-semiBold text-[14px]'>
                     Find Flight
                 </p>
             </Link>
 
-            <Link href="/hotels" className="flex items-center absolute top-11 left-40 gap-2">
-                <IoBedSharp className='size-5 text-white' />
-                <p className='text-white font-montserrat font-semiBold text-[14px]'>
+            <Link 
+                href="/hotels" 
+                className={`flex items-center absolute top-11 left-40 gap-2 pb-2 md:pb-7 ${
+                    pathname?.startsWith('/hotels') 
+                        ? 'border-b-4 border-[#8DD3BB]' 
+                        : ''
+                }`}
+            >
+                <IoBedSharp className='size-5 text-black' />
+                <p className='text-black font-montserrat font-semiBold text-[14px]'>
                     Find Stays
                 </p>
             </Link>
         </div>
 
         {/* Logo */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 text-white text-3xl">
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 text-black text-3xl">
             BookMe
         </div>
 
