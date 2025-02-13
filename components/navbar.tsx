@@ -34,8 +34,8 @@ const Navbar = ({ position = 'relative' }: NavbarProps) => {
                         : ''
                 }`}
             >
-                <MdFlight className='size-5 text-black' />
-                <p className='text-black font-montserrat font-semiBold text-[14px]'>
+                <MdFlight className={`size-5 ${pathname === '/' ? 'text-white' : 'text-black'}`} />
+                <p className={`font-montserrat font-semiBold text-[14px] ${pathname === '/' ? 'text-white' : 'text-black'}`}>
                     Find Flight
                 </p>
             </Link>
@@ -48,15 +48,15 @@ const Navbar = ({ position = 'relative' }: NavbarProps) => {
                         : ''
                 }`}
             >
-                <IoBedSharp className='size-5 text-black' />
-                <p className='text-black font-montserrat font-semiBold text-[14px]'>
+                <IoBedSharp className={`size-5 ${pathname === '/' ? 'text-white' : 'text-black'}`} />
+                <p className={`font-montserrat font-semiBold text-[14px] ${pathname === '/' ? 'text-white' : 'text-black'}`}>
                     Find Stays
                 </p>
             </Link>
         </div>
 
         {/* Logo */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 text-black text-3xl">
+        <div className={`absolute top-10 left-1/2 -translate-x-1/2 text-3xl ${pathname === '/' ? 'text-white' : 'text-black'}`}>
             BookMe
         </div>
 

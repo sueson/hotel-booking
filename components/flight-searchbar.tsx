@@ -42,7 +42,7 @@ const FlightSearchbar = () => {
                         </div>
 
                         <div className="flex items-center justify-center gap-3 px-3 my-4 md:my-0 md:mx-0">
-                            <TbArrowsTransferUpDown className="size-6 text-blue-800"/>
+                            <TbArrowsTransferUpDown className="size-6 text-blue-800 md:transform md:rotate-90"/>
                         </div>
 
                         <div className="w-full h-12 rounded-xl p-3 flex items-center gap-4 md:min-w-[160px]">
