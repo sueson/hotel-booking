@@ -99,7 +99,7 @@ export default function FlightScreen () {
                     </p>
                 </div>
 
-                <div className="md:flex md:items-center md:justify-start md:overflow-x-auto md:overflow-y-hidden md:w-full md:gap-6 md:px-4 md:py-2 scrollbar-hide h-auto">
+                <div className="flex flex-col items-center justify-center md:flex md:flex-row md:items-center md:justify-start md:overflow-x-auto md:overflow-y-hidden md:w-full md:gap-6 md:px-4 md:py-11 scrollbar-hide h-auto">
                     {[
                         {
                             image: "/images/melbourne-travel-section.png",
@@ -142,7 +142,11 @@ export default function FlightScreen () {
                 </div>
             </section>
 
-            <section className="w-full h-[500px] md:h-[270] mt-[1500px] md:mt-32 lg:mt-28 xl:mt-10 bg-[#8DD3BB]">
+            <section>
+                
+            </section>
+
+            <section className="w-full h-[500px] md:h-[270] mt-[1500px] md:mt-40 lg:mt-48 xl:mt-28 bg-[#8DD3BB]">
                 <Footer />
             </section>
         </>
