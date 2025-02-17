@@ -13,6 +13,7 @@ interface GuestModalProps {
     setRooms?: (value: number) => void;
     setFlightClass?: (value: string) => void;
     onClose: () => void;
+    className?: string;
 }
 
 function GuestModal({
@@ -26,6 +27,7 @@ function GuestModal({
     setRooms,
     setFlightClass,
     onClose,
+    className = "",
 }: GuestModalProps) {
   const guestModalRef = useRef<HTMLDivElement>(null);
 
@@ -43,10 +45,10 @@ function GuestModal({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/20">
+    <div className="fixed inset-0 z-[100] bg-black/20">
       <div
         ref={guestModalRef}
-        className="fixed inset-0 md:absolute md:inset-auto md:top-full md:right-6 bg-white md:w-[400px] md:mt-2 md:rounded-2xl md:shadow-lg"
+        className={`fixed inset-0 md:absolute md:inset-auto md:top-[calc(100%+16px)] md:right-0 bg-white md:min-w-[400px] md:rounded-2xl md:shadow-xl ${className}`}
       >
         {/* Modal Content */}
         <div className="p-6 space-y-8">

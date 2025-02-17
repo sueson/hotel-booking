@@ -10,7 +10,6 @@ import { useSession, signOut } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 
 interface NavbarProps {
@@ -21,19 +20,13 @@ interface NavbarProps {
 const Navbar = ({ position = 'relative' }: NavbarProps) => {
     const { data: session } = useSession();
     const pathname = usePathname();
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     return (
-        <div className={`flex items-center justify-between px-4 md:px-8 ${
-            position === 'absolute' ? 'absolute top-0 w-full z-50' : 'relative'
-        } ${
-            // Only apply shadow when mounted and not on home page
-            isMounted && pathname !== '/' ? 'shadow-2xl border-b' : ''
-        }`}>
+        <div 
+            className={`flex items-center justify-between px-4 md:px-8 ${
+                position === 'absolute' ? 'absolute top-0 w-full z-50' : 'relative'
+            } min-h-[97px] ${pathname !== '/' ? 'shadow-md border-b' : ''}`}
+        >
 
             <div className='hidden md:block'>
                 {/* icons */}

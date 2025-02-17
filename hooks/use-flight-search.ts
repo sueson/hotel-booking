@@ -3,9 +3,28 @@
 import { useState } from "react";
 import axios from "axios";
 
+export interface Location {
+    id: number;
+    code: string;
+    name: string;
+    country: {
+        name: string;
+        code: string;
+    };
+}
+
+interface FlightSearchResult {
+    data: Location[];
+    status: boolean;
+    message: string;
+}
 
 export const useFlightSearch = () => {
-    const [result, setResult] = useState([]);
+    const [result, setResult] = useState<FlightSearchResult>({
+        data: [],
+        status: false,
+        message: ''
+    });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 

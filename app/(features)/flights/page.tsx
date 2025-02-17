@@ -20,7 +20,7 @@ export default function FlightScreen () {
 
     return (
         <>
-            <header className="md:mt-24 relative pt-24 md:pt-0">
+            <header className="relative pt-24 md:pt-0">
                 <div className="overflow-hidden rounded-b-3xl w-full z-0">
                     <Image
                         src={"/images/flight-hero-image.png"} 
