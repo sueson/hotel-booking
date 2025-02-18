@@ -19,6 +19,7 @@ interface FlightSearchResult {
     message: string;
 }
 
+// For search flights
 export const useFlightSearch = () => {
     const [result, setResult] = useState<FlightSearchResult>({
         data: [],
@@ -44,10 +45,77 @@ export const useFlightSearch = () => {
         }
     };
 
+    const searchRoundTrip = async(params: {
+        origin: string;
+        destination: string;
+        departureDate: string;
+        returnDate: string;
+        adults: number;
+        children: number;
+        cabinType: string;
+    }) => {
+        const { 
+            origin, 
+            destination,
+            departureDate,
+            returnDate,
+            adults,
+            children,
+            cabinType
+        } = params;
+
+        if(!origin || !destination || !departureDate || !returnDate || !adults || !children || !cabinType) return;
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const response = await axios.get("/flights/api/roundtrip", {
+                params: {
+                    origin,
+                    destination,
+                    departureDate,
+                    returnDate,
+                    adults,
+                    children,
+                    cabinType
+                }
+            });
+
+            setResult(response.data);
+        } catch (error) {
+            setError("Error fetching flight data");
+            console.log("Roundtrip flight data not found", error)
+        } finally {
+            setLoading(false) 
+        }
+    };
+
+    const getFlightDetails = async(itineraryId: string, token: string) => {
+        setLoading(true);
+        setError("");
+
+        try {
+            const response = await axios.get("/flights/api/flight-details", {
+                params: {
+                    itineraryId,
+                    token
+                }
+            });
+
+            setResult(response.data);
+        } catch (error) {
+            setError("Error fetching flight details");
+            console.log("Error fetching flight details", error);
+        }
+    }
+
     return {
         result,
         loading,
         error,
-        searchFlight
+        searchFlight,
+        searchRoundTrip,
+        getFlightDetails
     }
 }
