@@ -35,7 +35,7 @@ export const useFlightSearch = () => {
         setError("");
 
         try {
-            const response = await axios.get(`/flights/api?query=${query}`);
+            const response = await axios.get(`/flights/api/search?query=${query}`);
             setResult(response.data);
         } catch (error) {
             setError("Error fetching flight data");
