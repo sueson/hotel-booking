@@ -22,6 +22,7 @@ export default function SearchResults () {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+    const [departureTimeRange, setDepartureTimeRange] = useState<[string, string]>(['00:00', '23:59']);
 
     const searchParams = useSearchParams();
 
@@ -41,7 +42,8 @@ export default function SearchResults () {
                     adults: Number(searchParams.get('adults')) || 1,
                     children: Number(searchParams.get('children')) || 0,
                     cabinType: searchParams.get('cabin') || 'economy',
-                    page: currentPage
+                    page: currentPage,
+                    departureTime: departureTimeRange,
                 };
 
                 const response = await searchRoundTrip(params);
@@ -123,7 +125,7 @@ export default function SearchResults () {
         };
 
         fetchData();
-    }, [searchParams, currentPage, searchRoundTrip]);
+    }, [searchParams, currentPage, searchRoundTrip, departureTimeRange]);
     
 
     const handleFilterChange = (airline: string) => {
@@ -140,9 +142,9 @@ export default function SearchResults () {
     return (
         <div>
             <div className="mt-[50px] md:mt-[50px] lg:mt-[50px] pb-4 md:pb-5 lg:pb-6 shadow-none md:shadow-md w-full md:w-[95%] lg:w-[90%] xl:w-[1232px] h-auto md:h-[120x] lg:min-h-[190px] xl:h-[200px] mx-auto rounded-lg relative">
-                <div className="relative z-50 overflow-visible">
+                <div className="md:relative z-50 overflow-visible">
                     <FlightSearchbar 
-                        customModalClasses="md:fixed md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:z-[100]"
+                        customModalClasses="md:absolute md:top-[330px] md:right-[20px] md:z-[100]"
                     />
                 </div>
             </div>
@@ -199,11 +201,14 @@ export default function SearchResults () {
                                         </p>
                                     </div>
                                     <div className="px-2">
-                                        <RangeSlider />
+                                        <RangeSlider 
+                                            value={departureTimeRange} 
+                                            onChange={setDepartureTimeRange}
+                                        />
                                     </div>
                                     <div className="flex justify-between text-sm text-gray-500 mt-4">
-                                        <span>12:00 AM</span>
-                                        <span>11:59 PM</span>
+                                        <span>00:00</span>
+                                        <span>23:59</span>
                                     </div>
                                 </div>
 
