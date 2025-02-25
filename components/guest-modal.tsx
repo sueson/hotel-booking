@@ -150,13 +150,13 @@ function GuestModal({
                     type="radio"
                     id="firstClass"
                     name="flightClass"
-                    value="firstClass"
-                    checked={flightClass === "firstClass"}
+                    value="first"
+                    checked={flightClass === "first"}
                     onChange={(e) => setFlightClass?.(e.target.value)}
                     className="accent-[#8DD3BB] w-4 h-4 appearance-none rounded-full border border-[#8DD3BB] checked:border-[#8DD3BB] checked:bg-[#8DD3BB] checked:border-4"
                   />
                   <label htmlFor="firstClass" className="font-montserrat text-sm">
-                    First Class
+                    First
                   </label>
                 </div>
               </div>

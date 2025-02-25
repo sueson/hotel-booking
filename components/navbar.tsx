@@ -136,12 +136,12 @@ const Navbar = ({ position = 'relative' }: NavbarProps) => {
                 ) : (
                 <>
                     <Link href="/auth/sign-in">
-                        <Button variant="outline" className="font-montserrat font-semiBold text-[14px] bg-transparent text-white hover:bg-white hover:text-black">
+                        <Button variant="outline" className="font-montserrat font-semiBold text-[14px] bg-transparent hover:bg-black hover:text-white">
                             Login
                         </Button>
                     </Link>
                     <Link href="/auth/sign-up">
-                        <Button className="bg-white font-montserrat font-semiBold text-[14px] hover:bg-gray-100">
+                        <Button className="bg-black text-white font-montserrat font-semiBold text-[14px] hover:bg-white hover:text-black">
                             Sign up
                         </Button>
                     </Link>

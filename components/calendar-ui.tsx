@@ -8,7 +8,11 @@ type CalendarValuePiece = Date | null;
 
 type CalendarValue = CalendarValuePiece | [CalendarValuePiece, CalendarValuePiece];
 
-const CalendarUi = () => {
+interface CalendarUiProps {
+    onDatesChange: (start: string, end: string) => void;
+}
+
+const CalendarUi = ({ onDatesChange }: CalendarUiProps) => {
 
     const [value, onChange] = useState<CalendarValue>(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -16,9 +20,14 @@ const CalendarUi = () => {
 
     const handleDateChange = (newValue: CalendarValue) => {
         onChange(newValue);
-        // Only auto-close on desktop (non-mobile) views
-        if (Array.isArray(newValue) && newValue.length === 2 && window.innerWidth > 767) {
-            setIsCalendarOpen(false);
+        if (Array.isArray(newValue)) {
+            const [start, end] = newValue;
+            if (start && end) {
+                onDatesChange(
+                    start.toISOString().split('T')[0],
+                    end.toISOString().split('T')[0]
+                );
+            }
         }
     };
 

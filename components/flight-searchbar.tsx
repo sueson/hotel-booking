@@ -9,11 +9,13 @@ import GuestModal from "@/components/guest-modal";
 import { useState } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import Link from "next/link";
 import { useFlightSearch, Location } from "@/hooks/use-flight-search";
+import { useRouter } from "next/navigation";
 
 
 const FlightSearchbar = ({ customModalClasses = "" }) => {
+    const router = useRouter();
+
     const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
     const [adults, setAdults] = useState(1);
     const [children, setChildren] = useState(0);
@@ -22,8 +24,12 @@ const FlightSearchbar = ({ customModalClasses = "" }) => {
     const [toQuery, setToQuery] = useState("");
     const [showFromSuggestions, setShowFromSuggestions] = useState(false);
     const [showToSuggestions, setShowToSuggestions] = useState(false);
+    const [departureDate, setDepartureDate] = useState("");
+    const [returnDate, setReturnDate] = useState("");
+    const [originCode, setOriginCode] = useState("");
+    const [destinationCode, setDestinationCode] = useState("");
 
-    const { result, loading, error, searchFlight } = useFlightSearch();
+    const { result, loading, error, searchFlight, searchRoundTrip } = useFlightSearch();
 
     const handleGuestSubmit = () => {
         setIsGuestModalOpen(prev => !prev);
@@ -32,6 +38,23 @@ const FlightSearchbar = ({ customModalClasses = "" }) => {
     const handleDone = () => {
         setIsGuestModalOpen(false);
     };
+
+    const handleSearchSubmit = async(e: React.FormEvent) => {
+        e.preventDefault();
+
+        await searchRoundTrip({
+            origin: originCode,
+            destination: destinationCode,
+            departureDate,
+            returnDate,
+            adults,
+            children,
+            cabinType: flightClass
+        });
+
+        router.push(`/flights/search?origin=${encodeURIComponent(originCode)}&destination=${encodeURIComponent(destinationCode)}&departure=${departureDate}&return=${returnDate}&adults=${adults}&children=${children}&cabin=${flightClass}`);
+    };
+
     return (
         <>
             <div className="relative md:flex md:items-center md:justify-between md:px-4 md:gap-4 md:h-auto md:py-4 w-full md:w-[95%] md:max-w-[650px] lg:max-w-none">
@@ -69,6 +92,7 @@ const FlightSearchbar = ({ customModalClasses = "" }) => {
                                                 onMouseDown={(e) => {
                                                     e.preventDefault();
                                                     setFromQuery(location.name);
+                                                    setOriginCode(location.code);
                                                     setShowFromSuggestions(false);
                                                 }}
                                             >
@@ -122,6 +146,7 @@ const FlightSearchbar = ({ customModalClasses = "" }) => {
                                                 onMouseDown={(e) => {
                                                     e.preventDefault();
                                                     setToQuery(location.name);
+                                                    setDestinationCode(location.code);
                                                     setShowToSuggestions(false);
                                                 }}
                                             >
@@ -148,7 +173,12 @@ const FlightSearchbar = ({ customModalClasses = "" }) => {
 
                 {/* Calendar Section */}
                 <div className="md:flex-1 md:min-w-[160px] lg:min-w-[200px]">
-                    <CalendarUi />
+                    <CalendarUi 
+                        onDatesChange={(start, end) => {
+                            setDepartureDate(start);
+                            setReturnDate(end);
+                        }}
+                    />
                 </div>
 
                 <div className="hidden md:block">
@@ -187,18 +217,20 @@ const FlightSearchbar = ({ customModalClasses = "" }) => {
             </div>
 
             {/* Search Button */}
-            <div className="w-full h-12 mt-10 md:mt-4 px-4 md:flex md:items-center md:justify-end">
-                <Link href="/flights/search" className="md:flex md:items-center md:justify-end">
-                    <Button 
-                        className="w-full h-12 bg-[#8DD3BB] mx-auto md:flex md:justify-center text-[14px] text-center"
-                    >
-                        <FaTelegramPlane className="size-5" />
-                        <p className="font-montserrat font-medium text-[14px]">
-                            Search Flights
-                        </p>
-                    </Button>
-                </Link>
-            </div>
+            <form 
+                onSubmit={handleSearchSubmit}
+                className="w-full h-12 mt-10 md:mt-4 px-4 md:flex md:items-center md:justify-end"
+            >
+                <Button 
+                    type="submit"
+                    className="w-full h-12 bg-[#8DD3BB] mx-auto md:flex md:justify-center text-[14px] text-center"
+                >
+                    <FaTelegramPlane className="size-5" />
+                    <p className="font-montserrat font-medium text-[14px]">
+                        Search Flights
+                    </p>
+                </Button>
+            </form>
         </>
 )}
 
